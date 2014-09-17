@@ -1,0 +1,8 @@
+Here is an example string template
+
+
+Thanks to the pretty printer in Blaze,  
+   We can do super fun stuff like 
+     This
+  Hello:::: #{name}
+  I am #{myName}

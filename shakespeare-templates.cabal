@@ -17,6 +17,8 @@ Library
   Other-Modules:        Text.Shakespeare.Template.Internal
   Build-Depends:        base >= 4 && < 5
                         , shakespeare < 2.2
+                        , text
+                       , blaze-html
 
 Test-Suite spec
   Type:                 exitcode-stdio-1.0
@@ -28,7 +30,8 @@ Test-Suite spec
   Build-Depends:        base
                       , hspec
                       , shakespeare
-
+                      , text
+                      , blaze-html
 Source-Repository head
   Type:                 git
 --  Location:             
