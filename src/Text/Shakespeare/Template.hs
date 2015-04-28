@@ -6,7 +6,7 @@ Description :  Make string templates using shakespeare engine
 Copyright   :  (c) Plow Technologies
 License     :  MIT License
 Maintainer  :  Scott Murphy
-Stability   :  unstable 
+Stability   :  unstable
 Portability :   non-portable (System.Posix)
 
 
@@ -16,23 +16,23 @@ There are lots of advantages to this, most notably a built in programmatic inter
 
 * all the hamlet stuff results in types that are of the form (t -> Html)  the t is used to render HTML inside your document.
 
-Currently this library is not designed to work with URL rendering so do not use '@' interpolation.  
+Currently this library is not designed to work with URL rendering so do not use '@' interpolation.
 
-* #{} , $foreach, $maybe 
+* #{} , $foreach, $maybe, and ^{}
 are available
+
+-- Example
+>>> hamletToText [hamlet|<div>test|]
+"<div>test</div>\n\n"
 
 One possible drawback to this template system,
 Templates are static -- this means you have to be creative with your templating to get dynamic effects.
 
 
-
 -}
 
 
-{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE RecordWildCards #-}
 
 module Text.Shakespeare.Template (hamletToText
                                  ,hamletToString
@@ -40,27 +40,31 @@ module Text.Shakespeare.Template (hamletToText
                                  ,hamletToFile
                                  ) where
 
-import Text.Shakespeare.Template.Internal
-import Prelude hiding (writeFile)
-import Text.Hamlet
-import Text.Blaze.Html.Renderer.Pretty
-import Data.Text.Lazy.IO
-import Data.Text.Lazy
-import Data.String (IsString)
+
+import           Data.Text.Lazy
+import           Data.Text.Lazy.IO
+import           Prelude                         hiding (writeFile)
+import           Text.Blaze.Html.Renderer.Pretty
+import           Text.Hamlet
 
 
+grs :: HamletSettings
 grs = defaultHamletSettings { hamletNewlines = NewlinesText}
 
-hamletToText :: (() -> Html) -> Text
-hamletToText hstr = pack.renderHtml $ hstr ()
-
-hamletToString :: (() -> Html) -> String
-hamletToString hstr = renderHtml $ hstr ()
 
 
-hamletToFile :: FilePath -> (() -> Html) -> IO () 
-hamletToFile fp hstr = writeFile fp (pack.renderHtml $ hstr ())
--- hamletfileToString :: FilePath -> String
--- hamletfileToString fname = renderHtml $ (hamletFile fname ) ()
+hamletToText :: HtmlUrl url  -> Text
+hamletToText hstr = pack.renderHtml $ hstr dummyFcn
+ where
+  dummyFcn _ _ = ""
 
+hamletToString :: HtmlUrl url -> String
+hamletToString hstr = renderHtml $ hstr dummyFcn
+ where
+  dummyFcn _ _ = ""
+
+hamletToFile :: FilePath -> HtmlUrl url -> IO ()
+hamletToFile fp hstr = writeFile fp (pack.renderHtml $ hstr dummyFcn)
+ where
+  dummyFcn _ _ = ""
 
