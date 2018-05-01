@@ -28,6 +28,8 @@ Test-Suite spec
                       , test
   Ghc-Options:          -Wall
   Main-Is:              Spec.hs
+  Other-Modules:        Text.Shakespeare.Template
+                      , Text.Shakespeare.TemplateSpec
   Build-Depends:        base
                       , hspec
                       , shakespeare
