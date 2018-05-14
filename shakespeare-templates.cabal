@@ -1,5 +1,5 @@
 Name:                   shakespeare-templates
-Version:                0.1.0
+Version:                0.2.0
 Author:                 Scott <scott.murphy@plowtech.net>
 Maintainer:             Scott <scott.murphy@plowtech.net>
 License:                BSD3
@@ -28,6 +28,8 @@ Test-Suite spec
                       , test
   Ghc-Options:          -Wall
   Main-Is:              Spec.hs
+  Other-Modules:        Text.Shakespeare.Template
+                      , Text.Shakespeare.TemplateSpec
   Build-Depends:        base
                       , hspec
                       , shakespeare
